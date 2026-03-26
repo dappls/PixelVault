@@ -1,4 +1,7 @@
 (function () {
+    var INTERSTITIAL_OVERLAY_ENABLED = false; // SET TO false TO COMPLY WITH GOOGLE ADSENSE POLICY
+                                              // The full-screen overlay violates AdSense policy on
+                                              // ads that obscure content / non-standard placements.
     var AD_DURATION = 5; // seconds shown before "Continue" button pulses
 
     var styles = `
@@ -97,6 +100,11 @@
     }
 
     function showAd(onClose) {
+        if (!INTERSTITIAL_OVERLAY_ENABLED) {
+            if (typeof onClose === 'function') onClose();
+            return;
+        }
+
         var existing = document.getElementById('gameAdOverlay');
         if (existing) existing.remove();
 
