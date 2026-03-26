@@ -8,31 +8,31 @@ from aiohttp import ClientSession
 TEMPLATE_HTML = """<!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="icon" type="image/png" href="/images/favicon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png">
-    <link rel="apple-touch-icon" href="/images/favicon.png">
+    <link rel="icon" type="image/png" href="../../images/favicon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../images/favicon.png">
+    <link rel="apple-touch-icon" href="../../images/favicon.png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Play {GAME_NAME} | GN-Math Unblocked Games</title>
-    <meta name="description" content="Play {GAME_NAME} unblocked on GN-Math - No downloads required! Enjoy this fun HTML5 game at school or work with our fast, secure gaming platform.">
+    <title>Play {GAME_NAME} | PixelVault Unblocked Games</title>
+    <meta name="description" content="Play {GAME_NAME} unblocked on PixelVault - No downloads required! Enjoy this fun HTML5 game at school or work with our fast, secure gaming platform.">
     <meta name="keywords" content="{GAME_NAME}, {GAME_NAME} unblocked, play {GAME_NAME}, free {GAME_NAME}, html5 games, unblocked games, school games, no flash games">
-    
+
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://genizymath.github.io/">
-    <meta property="og:title" content="Play {GAME_NAME} | GN-Math Unblocked Games">
-    <meta property="og:description" content="Play {GAME_NAME} unblocked on GN-Math - No downloads required! Enjoy this fun HTML5 game at school or work.">
+    <meta property="og:url" content="https://dappls.github.io/PixelVault/">
+    <meta property="og:title" content="Play {GAME_NAME} | PixelVault Unblocked Games">
+    <meta property="og:description" content="Play {GAME_NAME} unblocked on PixelVault - No downloads required! Enjoy this fun HTML5 game at school or work.">
     <meta property="og:image" content="{GAME_COVER}">
-	<meta name="google-adsense-account" content="ca-pub-5521219086088837">
-    
+    <meta name="google-adsense-account" content="YOUR_ADSENSE_PUB_ID">
+
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://genizymath.github.io/">
-    <meta property="twitter:title" content="Play {GAME_NAME} | GN-Math Unblocked Games">
-    <meta property="twitter:description" content="Play {GAME_NAME} unblocked on GN-Math - No downloads required! Enjoy this fun HTML5 game at school or work.">
+    <meta property="twitter:url" content="https://dappls.github.io/PixelVault/">
+    <meta property="twitter:title" content="Play {GAME_NAME} | PixelVault Unblocked Games">
+    <meta property="twitter:description" content="Play {GAME_NAME} unblocked on PixelVault - No downloads required! Enjoy this fun HTML5 game at school or work.">
     <meta property="twitter:image" content="{GAME_COVER}">
-    
-    <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-WX5VS54ZDW"></script>
+
+    <script async="" src="https://www.googletagmanager.com/gtag/js?id=YOUR_GA_ID"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
 
@@ -40,10 +40,10 @@ TEMPLATE_HTML = """<!DOCTYPE html>
             dataLayer.push(arguments);
         }
         gtag('js', new Date());
-        gtag('config', 'G-WX5VS54ZDW');
+        gtag('config', 'YOUR_GA_ID');
     </script>
 
-    <link rel="stylesheet" href="/styles/style.css">
+    <link rel="stylesheet" href="../../styles/style.css">
     <style>
         .game-container {
             max-width: 1200px;
@@ -164,12 +164,12 @@ TEMPLATE_HTML = """<!DOCTYPE html>
 </head>
 <body class="dark-mode">
     <div id="ad-top" style="text-align: center; margin: 1rem 0;">
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5521219086088837"
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=YOUR_ADSENSE_PUB_ID"
      crossorigin="anonymous"></script>
     </div>
     <header>
         <div class="header-content">
-            <a class="logo" href="/index.html" style="text-decoration: none; color: inherit;">genizymath</a>
+            <a class="logo" href="../../" style="text-decoration: none; color: inherit;">PixelVault</a>
             <div class="control-buttons">
                 <button id="settings" style="background-color: var(--primary-color); color: white; border: none; border-radius: 4px; padding: 0.5rem 1rem; font-size: 16px; cursor: pointer;">Settings</button>
             </div>
@@ -184,11 +184,11 @@ TEMPLATE_HTML = """<!DOCTYPE html>
         <div class="game-frame-container">
             <iframe class="game-frame" id="gameFrame" allowfullscreen></iframe>
             <button class="fullscreen-btn" onclick="document.getElementById('gameFrame').requestFullscreen()">Fullscreen</button>
-            <button class="newtab-btn" onclick="window.open('https://genizymath.github.io/iframe/{PATHNAME}', '_blank')">Open in New Tab</button>
+            <button class="newtab-btn" onclick="window.open('https://dappls.github.io/PixelVault/iframe/{PATHNAME}', '_blank')">Open in New Tab</button>
         </div>
 
         <div id="ad-middle" style="text-align: center; margin: 2rem 0;">
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5521219086088837"
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=YOUR_ADSENSE_PUB_ID"
      crossorigin="anonymous"></script>
         
         <div class="game-info">
@@ -197,7 +197,7 @@ TEMPLATE_HTML = """<!DOCTYPE html>
             <div class="game-details">
                 <h2>About {GAME_NAME}</h2>
                 <p class="game-description">
-                    Play {GAME_NAME} unblocked on GN-Math! Our platform provides fast, secure access to this popular HTML5 game without any downloads. 
+                    Play {GAME_NAME} unblocked on PixelVault! Our platform provides fast, secure access to this popular HTML5 game without any downloads. 
                     Perfect for school, work, or home, {GAME_NAME} runs directly in your browser with no installation required.
                 </p>
                 
@@ -257,11 +257,11 @@ TEMPLATE_HTML = """<!DOCTYPE html>
     </footer>
 
         <div id="ad-bottom" style="text-align: center; margin: 2rem 0;">
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5521219086088837"
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=YOUR_ADSENSE_PUB_ID"
      crossorigin="anonymous"></script>
         </div>
 
-    <script src="/javascript/script.js"></script>
+    <script src="../../javascript/index.js"></script>
 </body>
 </html>
 """
@@ -271,7 +271,7 @@ sitemap = """<?xml version="1.0" encoding="UTF-8"?>
   xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
   <url>
-    <loc>https://genizymath.github.io/</loc>
+    <loc>https://dappls.github.io/PixelVault/</loc>
   </url>
 """;
 
@@ -302,7 +302,7 @@ async def process_game(session: ClientSession, game: dict, OUTPUT_DIR: str, GAME
                                .replace('{GAME_COVER}', game_cover.replace(
                                    "{COVER_URL}", 
                                    "https://cdn.jsdelivr.net/gh/gn-math/covers@main"))\
-                               .replace('{GAME_URL}', "/iframe/"+pathname)\
+                               .replace('{GAME_URL}', "../../iframe/"+pathname)\
                                .replace('{PATHNAME}', pathname)
     game_url = f'https://cdn.jsdelivr.net/gh/gn-math/html@main/{pathname}'
     game_html = await fetch_text(session, game_url)
@@ -318,7 +318,7 @@ async def process_game(session: ClientSession, game: dict, OUTPUT_DIR: str, GAME
     global sitemap
     sitemap += f"""
     <url>
-        <loc>https://genizymath.github.io/games/{game_name_url}/</loc>
+        <loc>https://dappls.github.io/PixelVault/games/{game_name_url}/</loc>
     </url>
     """
     print(f"Made {index_path}")
