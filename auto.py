@@ -19,20 +19,20 @@ TEMPLATE_HTML = """<!DOCTYPE html>
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://dappls.github.io/PixelVault/">
+    <meta property="og:url" content="https://dappls.github.io/">
     <meta property="og:title" content="Play {GAME_NAME} | PixelVault Unblocked Games">
     <meta property="og:description" content="Play {GAME_NAME} unblocked on PixelVault - No downloads required! Enjoy this fun HTML5 game at school or work.">
     <meta property="og:image" content="{GAME_COVER}">
-    <meta name="google-adsense-account" content="YOUR_ADSENSE_PUB_ID">
+    <meta name="google-adsense-account" content="ca-pub-3633320799834823">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://dappls.github.io/PixelVault/">
+    <meta property="twitter:url" content="https://dappls.github.io/">
     <meta property="twitter:title" content="Play {GAME_NAME} | PixelVault Unblocked Games">
     <meta property="twitter:description" content="Play {GAME_NAME} unblocked on PixelVault - No downloads required! Enjoy this fun HTML5 game at school or work.">
     <meta property="twitter:image" content="{GAME_COVER}">
 
-    <script async="" src="https://www.googletagmanager.com/gtag/js?id=YOUR_GA_ID"></script>
+    <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-NEGSCDQJH1"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
 
@@ -40,7 +40,7 @@ TEMPLATE_HTML = """<!DOCTYPE html>
             dataLayer.push(arguments);
         }
         gtag('js', new Date());
-        gtag('config', 'YOUR_GA_ID');
+        gtag('config', 'G-NEGSCDQJH1');
     </script>
 
     <link rel="stylesheet" href="../../styles/style.css">
@@ -164,7 +164,7 @@ TEMPLATE_HTML = """<!DOCTYPE html>
 </head>
 <body class="dark-mode">
     <div id="ad-top" style="text-align: center; margin: 1rem 0;">
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=YOUR_ADSENSE_PUB_ID"
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3633320799834823"
      crossorigin="anonymous"></script>
     </div>
     <header>
@@ -184,11 +184,11 @@ TEMPLATE_HTML = """<!DOCTYPE html>
         <div class="game-frame-container">
             <iframe class="game-frame" id="gameFrame" allowfullscreen></iframe>
             <button class="fullscreen-btn" onclick="document.getElementById('gameFrame').requestFullscreen()">Fullscreen</button>
-            <button class="newtab-btn" onclick="window.open('https://dappls.github.io/PixelVault/iframe/{PATHNAME}', '_blank')">Open in New Tab</button>
+            <button class="newtab-btn" onclick="window.open('https://dappls.github.io/iframe/{PATHNAME}', '_blank')">Open in New Tab</button>
         </div>
 
         <div id="ad-middle" style="text-align: center; margin: 2rem 0;">
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=YOUR_ADSENSE_PUB_ID"
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3633320799834823"
      crossorigin="anonymous"></script>
         
         <div class="game-info">
@@ -257,7 +257,7 @@ TEMPLATE_HTML = """<!DOCTYPE html>
     </footer>
 
         <div id="ad-bottom" style="text-align: center; margin: 2rem 0;">
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=YOUR_ADSENSE_PUB_ID"
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3633320799834823"
      crossorigin="anonymous"></script>
         </div>
 
@@ -271,7 +271,7 @@ sitemap = """<?xml version="1.0" encoding="UTF-8"?>
   xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
   <url>
-    <loc>https://dappls.github.io/PixelVault/</loc>
+    <loc>https://dappls.github.io/</loc>
   </url>
 """;
 
@@ -318,7 +318,7 @@ async def process_game(session: ClientSession, game: dict, OUTPUT_DIR: str, GAME
     global sitemap
     sitemap += f"""
     <url>
-        <loc>https://dappls.github.io/PixelVault/games/{game_name_url}/</loc>
+        <loc>https://dappls.github.io/games/{game_name_url}/</loc>
     </url>
     """
     print(f"Made {index_path}")
