@@ -42,7 +42,7 @@ TEMPLATE_HTML = """<!DOCTYPE html>
     <main class="game-container">
         <h1 class="game-title">{GAME_NAME}</h1>
         <div class="game-frame-container">
-            <iframe class="game-frame" id="gameFrame" allowfullscreen></iframe>
+            <iframe class="game-frame" id="gameFrame" allowfullscreen sandbox="allow-scripts allow-same-origin allow-forms allow-pointer-lock allow-orientation-lock allow-downloads"></iframe>
             <button class="fullscreen-btn" onclick="document.getElementById('gameFrame').requestFullscreen()">Fullscreen</button>
             <button class="newtab-btn" onclick="window.open(new URL('../../iframe/{PATHNAME}', window.location.href).href, '_blank')">New Tab</button>
         </div>

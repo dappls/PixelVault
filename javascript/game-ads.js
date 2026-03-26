@@ -2,7 +2,56 @@
     var INTERSTITIAL_OVERLAY_ENABLED = false; // SET TO false TO COMPLY WITH GOOGLE ADSENSE POLICY
                                               // The full-screen overlay violates AdSense policy on
                                               // ads that obscure content / non-standard placements.
-    var AD_DURATION = 5; // seconds shown before "Continue" button pulses
+
+    // ── Always-on: block known third-party game ad networks ──
+    var BLOCKED_DOMAINS = [
+        'gamemonetize.com',
+        'gamedistribution.com',
+        'cpmstar.com',
+        'mochiads.com',
+        'imasdk.googleapis.com',  // Google IMA video ads inside games (not AdSense)
+        'adinplay.com',
+        'cdn.cpx.to',
+        'vidazoo.com',
+        'adnxs.com',
+    ];
+
+    function isBlocked(url) {
+        try {
+            var host = new URL(url, location.origin).hostname;
+            return BLOCKED_DOMAINS.some(function (d) { return host.indexOf(d) !== -1; });
+        } catch (e) { return false; }
+    }
+
+    // Block fetch requests to ad networks
+    var _fetch = window.fetch;
+    window.fetch = function (url, opts) {
+        if (isBlocked(url)) return Promise.reject(new Error('blocked'));
+        return _fetch.apply(this, arguments);
+    };
+
+    // Block XHR requests to ad networks
+    var _xhrOpen = XMLHttpRequest.prototype.open;
+    XMLHttpRequest.prototype.open = function (method, url) {
+        if (isBlocked(url)) return;
+        return _xhrOpen.apply(this, arguments);
+    };
+
+    // Block external popup windows — allow same-origin only (New Tab button still works)
+    var _origOpen = window.open;
+    window.open = function (url) {
+        try {
+            if (new URL(url, location.origin).origin === location.origin) {
+                return _origOpen.apply(this, arguments);
+            }
+        } catch (e) {}
+        return null;
+    };
+
+    // ── Interstitial overlay (off by default for AdSense compliance) ──
+    if (!INTERSTITIAL_OVERLAY_ENABLED) return;
+
+    var AD_DURATION = 5;
 
     var styles = `
         #gameAdOverlay {
@@ -67,12 +116,8 @@
             font-family: sans-serif;
             transition: background 0.2s, transform 0.1s;
         }
-        #gameAdContinue:hover {
-            background: #6d28d9;
-        }
-        #gameAdContinue.ad-ready {
-            animation: adReadyPulse 0.4s ease;
-        }
+        #gameAdContinue:hover { background: #6d28d9; }
+        #gameAdContinue.ad-ready { animation: adReadyPulse 0.4s ease; }
         @keyframes adReadyPulse {
             0%   { transform: scale(1); }
             50%  { transform: scale(1.06); }
@@ -100,18 +145,12 @@
     }
 
     function showAd(onClose) {
-        if (!INTERSTITIAL_OVERLAY_ENABLED) {
-            if (typeof onClose === 'function') onClose();
-            return;
-        }
-
         var existing = document.getElementById('gameAdOverlay');
         if (existing) existing.remove();
 
         var overlay = buildOverlay();
         document.body.appendChild(overlay);
 
-        // Try to push a display ad into the slot (Auto Ads may populate it)
         var slot = document.getElementById('gameAdSlot');
         var ins = document.createElement('ins');
         ins.className = 'adsbygoogle';
@@ -145,22 +184,9 @@
         });
     }
 
-    // Play Again — reloads the iframe after showing an ad
-    window.playAgain = function () {
-        showAd(function () {
-            var frame = document.getElementById('gameFrame');
-            if (frame) {
-                var src = frame.src;
-                frame.src = '';
-                setTimeout(function () { frame.src = src; }, 50);
-            }
-        });
-    };
-
-    // Show on first page load
     function init() {
         injectStyles();
-        showAd(null); // null = just close the overlay, game already loading behind it
+        showAd(null);
     }
 
     if (document.readyState === 'loading') {
