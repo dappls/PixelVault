@@ -19,7 +19,7 @@ TEMPLATE_HTML = """<!DOCTYPE html>
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://dappls.github.io/">
+    <meta property="og:url" content="https://dappls.github.io/PixelVault/">
     <meta property="og:title" content="Play {GAME_NAME} | PixelVault Unblocked Games">
     <meta property="og:description" content="Play {GAME_NAME} unblocked on PixelVault - No downloads required! Enjoy this fun HTML5 game at school or work.">
     <meta property="og:image" content="{GAME_COVER}">
@@ -27,7 +27,7 @@ TEMPLATE_HTML = """<!DOCTYPE html>
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://dappls.github.io/">
+    <meta property="twitter:url" content="https://dappls.github.io/PixelVault/">
     <meta property="twitter:title" content="Play {GAME_NAME} | PixelVault Unblocked Games">
     <meta property="twitter:description" content="Play {GAME_NAME} unblocked on PixelVault - No downloads required! Enjoy this fun HTML5 game at school or work.">
     <meta property="twitter:image" content="{GAME_COVER}">
@@ -42,6 +42,9 @@ TEMPLATE_HTML = """<!DOCTYPE html>
         gtag('js', new Date());
         gtag('config', 'G-NEGSCDQJH1');
     </script>
+
+    <!-- AdSense — loaded once; Auto Ads handles placement -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3633320799834823" crossorigin="anonymous"></script>
 
     <link rel="stylesheet" href="../../styles/style.css">
     <style>
@@ -70,7 +73,7 @@ TEMPLATE_HTML = """<!DOCTYPE html>
             border-radius: 8px;
             overflow: hidden;
             box-shadow: 0 4px 12px var(--shadow);
-            margin-bottom: 30px;
+            margin-bottom: 20px;
         }
         
         .game-frame {
@@ -163,10 +166,7 @@ TEMPLATE_HTML = """<!DOCTYPE html>
     </style>
 </head>
 <body class="dark-mode">
-    <div id="ad-top" style="text-align: center; margin: 1rem 0;">
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3633320799834823"
-     crossorigin="anonymous"></script>
-    </div>
+    <div id="ad-top" style="text-align: center; margin: 1rem 0;"></div>
     <header>
         <div class="header-content">
             <a class="logo" href="../../" style="text-decoration: none; color: inherit;">PixelVault</a>
@@ -184,13 +184,15 @@ TEMPLATE_HTML = """<!DOCTYPE html>
         <div class="game-frame-container">
             <iframe class="game-frame" id="gameFrame" allowfullscreen></iframe>
             <button class="fullscreen-btn" onclick="document.getElementById('gameFrame').requestFullscreen()">Fullscreen</button>
-            <button class="newtab-btn" onclick="window.open('https://dappls.github.io/iframe/{PATHNAME}', '_blank')">Open in New Tab</button>
+            <button class="newtab-btn" onclick="window.open(new URL('../../iframe/{PATHNAME}', window.location.href).href, '_blank')">Open in New Tab</button>
         </div>
 
-        <div id="ad-middle" style="text-align: center; margin: 2rem 0;">
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3633320799834823"
-     crossorigin="anonymous"></script>
-        
+        <div class="play-again-wrap" style="margin: 0 auto 20px; max-width: 900px; text-align: center;">
+            <button class="play-again-btn" onclick="playAgain()" style="background-color: var(--primary-color); color: white; border: none; padding: 12px 32px; border-radius: 6px; font-size: 1rem; cursor: pointer;">&#9654; Play Again</button>
+        </div>
+
+        <div id="ad-middle" style="text-align: center; margin: 1rem 0;"></div>
+
         <div class="game-info">
             <img class="game-cover" id="coverImage" alt="{GAME_NAME} Game Cover">
             
@@ -224,13 +226,12 @@ TEMPLATE_HTML = """<!DOCTYPE html>
     </main>
 
     <script>
-        const params = new URLSearchParams(window.location.search);
         const title = "{GAME_NAME}";
         const cover = "{GAME_COVER}";
         const url = "{GAME_URL}";
 
         document.getElementById("coverImage").src = cover;
-        document.getElementById("coverImage").alt = `${title} Game Cover`;
+        document.getElementById("coverImage").alt = title + " Game Cover";
         document.getElementById("gameFrame").src = url;
     </script>
 
@@ -256,12 +257,10 @@ TEMPLATE_HTML = """<!DOCTYPE html>
         </div>
     </footer>
 
-        <div id="ad-bottom" style="text-align: center; margin: 2rem 0;">
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3633320799834823"
-     crossorigin="anonymous"></script>
-        </div>
+        <div id="ad-bottom" style="text-align: center; margin: 2rem 0;"></div>
 
     <script src="../../javascript/index.js"></script>
+    <script src="../../javascript/game-ads.js"></script>
 </body>
 </html>
 """
@@ -283,33 +282,41 @@ async def fetch_text(session: ClientSession, url: str) -> str:
     async with session.get(url) as response:
         return await response.text()
 
+# Iframe files that have been manually fixed and must not be overwritten from CDN
+PROTECTED_IFRAMES = {
+    '66.html',  # Basket Random — replaced obfuscated domain-lock code with clean version
+}
+
 async def process_game(session: ClientSession, game: dict, OUTPUT_DIR: str, GAME_DIR: str) -> str:
     game_id = str(game['id'])
     if game_id == '-1':
         return None
-    
+
     game_name = game['name']
     game_cover = game['cover']
     pathname = f"{game['url'].split('/')[1]}"
     game_name_url = re.sub(r'[^a-zA-Z0-9-]', '', game_name.replace(' ', '-').lower()).replace('--', '-')
-    
+
     game_folder = os.path.join(OUTPUT_DIR, game_name_url)
     os.makedirs(game_folder, exist_ok=True)
     os.makedirs(GAME_DIR, exist_ok=True)
-    
+
     html_content = TEMPLATE_HTML.replace('{GAME_NAME}', game_name)\
                                .replace('{GAME_ID}', game_id)\
                                .replace('{GAME_COVER}', game_cover.replace(
-                                   "{COVER_URL}", 
+                                   "{COVER_URL}",
                                    "https://cdn.jsdelivr.net/gh/gn-math/covers@main"))\
                                .replace('{GAME_URL}', "../../iframe/"+pathname)\
                                .replace('{PATHNAME}', pathname)
-    game_url = f'https://cdn.jsdelivr.net/gh/gn-math/html@main/{pathname}'
-    game_html = await fetch_text(session, game_url)
-    
+
     game_file_path = os.path.join(GAME_DIR, f"{pathname}")
-    with open(game_file_path, 'w', encoding='utf-8') as f:
-        f.write(game_html)
+    if pathname not in PROTECTED_IFRAMES:
+        game_url = f'https://cdn.jsdelivr.net/gh/gn-math/html@main/{pathname}'
+        game_html = await fetch_text(session, game_url)
+        with open(game_file_path, 'w', encoding='utf-8') as f:
+            f.write(game_html)
+    else:
+        print(f"Skipping protected iframe: {pathname}")
     
     index_path = os.path.join(OUTPUT_DIR, game_name_url, 'index.html')
     with open(index_path, 'w', encoding='utf-8') as f:
