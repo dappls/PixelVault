@@ -401,9 +401,7 @@ settings.addEventListener('click', () => {
 function showContact() {
     document.getElementById('popupTitle').textContent = "Contact";
     const popupBody = document.getElementById('popupBody');
-    popupBody.innerHTML = `
-    <p>Discord: YOUR_DISCORD_INVITE</p>
-    <p>Email: YOUR_EMAIL</p>`;
+    popupBody.innerHTML = `<p>Email: YOUR_EMAIL</p>`;
     popupBody.contentEditable = false;
     document.getElementById('popupOverlay').style.display = "flex";
 }
